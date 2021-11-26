@@ -1,15 +1,11 @@
 package io.github.binishmanandhar23.indicatorlibrary
 
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import io.github.binishmanandhar23.indicatorlibrary.model.IndicatorModifications
 import io.github.binishmanandhar23.indicatorlibrary.utils.IndicatorUtils.isScrolledToTheEnd
@@ -32,15 +28,13 @@ class IndicatorLibrary {
         val isInList = ArrayList<Boolean>()
         for (i in 0 until numberOfIndicators) {
             if (i == 0)
-                compareList.add(firstPart)
+                compareList.add(firstPart).also {
+                    isInList.add(firstItemIndex <= firstPart)
+                }
             else
-                compareList.add(compareList[i - 1] + firstPart)
-        }
-        for (i in 0 until numberOfIndicators) {
-            if (i == 0)
-                isInList.add(firstItemIndex <= firstPart)
-            else
-                isInList.add(firstItemIndex > compareList[i - 1] && firstItemIndex <= compareList[i])
+                compareList.add(compareList[i - 1] + firstPart).also {
+                    isInList.add(firstItemIndex > compareList[i - 1] && firstItemIndex <= compareList[i])
+                }
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
